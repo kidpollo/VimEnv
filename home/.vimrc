@@ -26,12 +26,15 @@ Bundle 'rking/ag.vim'
 
 " Navigation
 Bundle 'kien/ctrlp.vim'
+Bundle 'xolox/vim-misc'
+Bundle 'xolox/vim-easytags'
 Bundle 'majutsushi/tagbar'
 Bundle 'scrooloose/nerdtree'
 
 " Buffers
 Bundle 'vim-scripts/bufkill.vim'
 Bundle 'duff/vim-bufonly'
+Bundle 'jeetsukumaran/vim-buffergator'
 
 " Editing
 Bundle 'tpope/vim-surround'
@@ -41,6 +44,7 @@ Bundle 'tpope/vim-sleuth'
 Bundle 'tpope/vim-commentary'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'sjl/gundo.vim'
+"Bundle 'vim-scripts/vim-auto-save'
 
 " Git
 Bundle 'tpope/vim-git'
@@ -143,7 +147,7 @@ endif
 if &t_Co > 2 || has("gui_running")
   syntax on
   set hlsearch
-  set guifont=menlo:h12
+  set guifont=Inconsolata-dz\ for\ Powerline:h12
 endif
 
 " dem rainbow parens
@@ -202,28 +206,64 @@ else
   set autoindent		" always set autoindenting on
 endif " has("autocmd")
 
+" let g:auto_save = 1
+" let g:auto_save_in_insert_mode = 0
+" let g:auto_save_no_updatetime = 1
 
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline#extensions#tabline#buffer_nr_format = '%s|'
-let g:airline#extensions#hunks#enabled = 0
-" let g:airline_powerline_fonts = 1
+let g:ackprg = 'ag --nogroup --nocolor --column'
+
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#buffer_nr_show = 1
+"let g:airline#extensions#tabline#buffer_nr_format = '%s|'
+"let g:airline#extensions#hunks#enabled = 0
+let g:airline_powerline_fonts = 1
 set laststatus=2
-let g:ctrlp_root_markers = ['project.clj']
+let g:ctrlp_root_markers = ['project.clj', 'Gemfile']
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
+  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
+\}
 
-" let g:lightline = {
-"       \'colorscheme': 'wombat',
-"       \ 'active': {
-"       \   'left': [ [ 'mode', 'paste' ],
-"       \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
-"       \ }      
-"       \ }
+" Use the nearest .git directory as the cwd
+" This makes a lot of sense if you are working on a project that is in version
+" control. It also supports works with .svn, .hg, .bzr.
+let g:ctrlp_working_path_mode = 'r'
+     
+" Use the right side of the screen
+let g:buffergator_viewport_split_policy = 'R'
+
+" I want my own keymappings...
+"let g:buffergator_suppress_keymaps = 1
+
+" Looper buffers
+"let g:buffergator_mru_cycle_loop = 1
+
+set tags=./tags;
+let g:easytags_dynamic_files = 1
 
 "==================="
 " Keyboard Mappings "
 "==================="
 
 let mapleader=","
+
+" Use a leader instead of the actual named binding
+nmap <leader>p :CtrlP<cr>
+
+" Easy bindings for its various modes
+"nmap <leader>bb :CtrlPBuffer<cr>
+"nmap <leader>bm :CtrlPMixed<cr>
+"nmap <leader>bs :CtrlPMRU<cr>
+
+" Go to the previous buffer open
+"nmap <leader>jj :BuffergatorMruCyclePrev<cr>
+
+" Go to the next buffer open
+"nmap <leader>kk :BuffergatorMruCycleNext<cr>
+
+" View the entire list of buffers open
+"nmap <leader>bl :BuffergatorOpen<cr>
+"nmap <leader>bq :bp <BAR> bd #<cr>
 
 " Gundo
 nnoremap <F6> :GundoToggle<CR>
@@ -254,7 +294,8 @@ inoremap '' ''<Left>
 
 map <leader>nt :NERDTreeToggle<CR>
 map <leader>nf :NERDTreeFind<CR>
-map <leader>fa :Ack  
+map <leader>fa :Ack
+let NERDTreeShowHidden=1
 
 " Nerd Tree auto stuff
 autocmd VimEnter * call s:CdIfDirectory(expand("<amatch>"))
