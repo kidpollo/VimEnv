@@ -27,8 +27,8 @@ Bundle 'rking/ag.vim'
 " Navigation
 Bundle 'kien/ctrlp.vim'
 Bundle 'xolox/vim-misc'
-Bundle 'xolox/vim-easytags'
 Bundle 'majutsushi/tagbar'
+Bundle 'ludovicchabant/vim-gutentags'
 Bundle 'scrooloose/nerdtree'
 
 " Buffers
@@ -238,8 +238,10 @@ let g:buffergator_viewport_split_policy = 'R'
 " Looper buffers
 "let g:buffergator_mru_cycle_loop = 1
 
+" Tag stuff
 set tags=./tags;
-let g:easytags_dynamic_files = 1
+map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 "==================="
 " Keyboard Mappings "
