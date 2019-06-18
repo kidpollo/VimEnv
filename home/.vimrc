@@ -147,7 +147,7 @@ endif
 if &t_Co > 2 || has("gui_running")
   syntax on
   set hlsearch
-  set guifont=Inconsolata-dz\ for\ Powerline:h12
+  set guifont=Inconsolata-dz\ for\ Powerline\ Medium\ 10
 endif
 
 " dem rainbow parens
