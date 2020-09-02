@@ -239,7 +239,8 @@ let g:buffergator_viewport_split_policy = 'R'
 "let g:buffergator_mru_cycle_loop = 1
 
 " Tag stuff
-set tags=./tags;
+let g:gutentags_ctags_tagfile = 'vimtags'
+set tags=./vimtags;
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
